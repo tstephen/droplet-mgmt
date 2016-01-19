@@ -56,9 +56,9 @@ var ractive = new Ractive({
     },
     searchMatched:0,
     stdPartials: [
-      { "name": "profileArea", "url": "/partials/profile-area.html"},
-      { "name": "titleArea", "url": "/partials/title-area.html"},
-      { "name": "dropletListSect", "url": "/partials/droplet-list-sect.html"}
+      { "name": "profileArea", "url": "/droplet-mgmt/partials/profile-area.html"},
+      { "name": "titleArea", "url": "/droplet-mgmt/partials/title-area.html"},
+      { "name": "dropletListSect", "url": "/droplet-mgmt/partials/droplet-list-sect.html"}
     ],
   },
   ajaxSetup: function() {
