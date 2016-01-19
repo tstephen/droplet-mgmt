@@ -31,11 +31,11 @@
     </a>-->
   </h2>
   {{^doKey}}
-      <p>
+      <p class="alert alert-warning">
         To use this droplet console, go to the <a href="https://cloud.digitalocean.com/settings/api/tokens"> API menu</a> and create a token, then paste it below.
       </p>
       <p>
-        <input class="form-control" placeholder="API token, a long alpha-numeric string" value="{{doKey}}"/>
+        <input autofocus="autofocus" class="form-control" placeholder="API token, a long alpha-numeric string" value="{{doKey}}"/>
       </p>
   {{/}}
   <table id="dropletsTable" class="table table-striped">
