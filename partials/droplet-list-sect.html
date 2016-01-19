@@ -1,0 +1,87 @@
+<section id="dropletsSect">
+  <h2>
+    <a id="dropletsTableToggle" class="clickable glyphicon glyphicon-triangle-bottom" aria-hidden="true" on-click="toggleResults()" title="Collapse or expand the contact table"></a>
+    <span>Droplets</span>
+    <!--
+      <a class="clickable glyphicon glyphicon-plus" aria-hidden="true" on-click="add()" title="Add a new contact"></a>
+    -->
+    <a class="clickable glyphicon glyphicon-refresh" aria-hidden="true" on-click="fetch()" title="Refresh the list"></a>
+    <input type="search" class="form-control search" placeholder="Search" value="{{searchTerm}}">
+    <a class="glyphicon glyphicon-search" aria-hidden="true" title="Search for matching droplets"></a>
+    <!--<a class="clickable dropdown" aria-hidden="true" id="filterBtn" title="Show filters">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+        <a class="clickable glyphicon glyphicon-filter dropdown" aria-hidden="true" title="Show filters"> <span class="caret"></a>
+      </a>
+      <ul class="omny-dropdown dropdown-menu" id="filterMenu" role="menu">
+        <li on-click="filter()">Show All</li>
+        <li on-click="filter({field: 'stage', operator: '!in', value: 'Cold,Complete'})">Show Active</li>
+        <li class="divider"></li>
+        {{#stages}}
+          <li onclick="ractive.filter({field: 'stage', value: '{{id}}'})">{{name}}</li>
+        {{/stages}}
+        <li class="divider"></li>
+        {{#enquiryTypes}}
+          <li onclick="ractive.filter({field: 'enquiryType', value: '{{id}}'})">{{name}}</li>
+        {{/}}
+        <li class="divider"></li>
+        {{#accountTypes}}
+          <li onclick="ractive.filter({field: 'accountType', value: '{{id}}'})">{{name}}</li>
+        {{/accountTypes}}
+      </ul>
+    </a>-->
+  </h2>
+  {{^doKey}}
+      <p>
+        To use this droplet console, go to the <a href="https://cloud.digitalocean.com/settings/api/tokens"> API menu</a> and create a token, then paste it below.
+      </p>
+      <p>
+        <input class="form-control" placeholder="API token, a long alpha-numeric string" value="{{doKey}}"/>
+      </p>
+  {{/}}
+  <table id="dropletsTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Monthly Price</th>
+        <th>RAM</th>
+        <th>Disk Size</th>
+        <th>Region Name</th>
+        <th>Created</th>
+        <th class="col-actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{# droplets:i}}
+      {{# matchSearch(this) && matchFilter(this) }}
+          <tr data-href="{{links[rel=='self'].href}}">
+            <td>{{i+1}}</td>
+            <td><a href="http://{{name}}" target="_newtab">{{name}}</a></td>
+            <td class="status status-{{status}}">{{status}}</td>
+            <td>{{size.price_monthly}}</td>
+            <td>{{size.memory}}</td>
+            <td>{{size.disk}}</td>
+            <td>{{region.name}}</td>
+            <td>{{formatDate(created_at)}}</td>
+            <td class="col-actions">
+              <a class="clickable admin glyphicon glyphicon-remove" aria-hidden="true" on-click="delete(this)" title="Delete this record"></a>
+              {{#active}}
+                <a class="clickable glyphicon glyphicon-stop" aria-hidden="true" on-click="shutdown(this)" title="Shutdown"></a>
+              {{/}}
+              {{# !active}}
+                <a class="clickable glyphicon glyphicon-play" aria-hidden="true" on-click="start(this)" title="Start"></a>
+                <a class="clickable glyphicon glyphicon-duplicate" aria-hidden="true" on-click="snapshot(this)" title="Take Snapshot"></a>
+              {{/}}
+            </td>
+          </tr>
+      {{/}}
+    {{/}}
+    </tbody>
+    <tfoot>
+      {{# searchTerm!=undefined }}
+        <tr><th colspan="9">{{searchMatched == 0 ? 'No' : searchMatched}} matching droplet{{searchMatched==1 ? '' : 's'}}</th></tr>
+      {{/}}
+    </tfoot>
+  </table>
+</section>
